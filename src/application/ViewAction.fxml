@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <BorderPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <top>
+            <Text fx:id="actionName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </top>
+   <center>
+      <VBox fx:id="listTriggers" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTextField alignment="CENTER" editable="false" focusColor="#405aa800" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="207.0" text="Triggers" unFocusColor="#4d4d4d00" />
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="343.0" prefWidth="294.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Actuator" />
+                  <Text fx:id="actuatorName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
+                  <JFXToggleButton fx:id="actuatorOnOff" disable="true" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

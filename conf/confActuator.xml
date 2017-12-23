@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Actuators>
+	<Actuator id="0">
+		<name>Light</name>
+	</Actuator>
+	<Actuator id="1">
+		<name>Power</name>
+	</Actuator>
+	<Actuator id="2">
+		<name>Heating</name>
+	</Actuator>
+	<Actuator id="3"> 
+		<name>Movement Sensor</name>
+	</Actuator>
+</Actuators>

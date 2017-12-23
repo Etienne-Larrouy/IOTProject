@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TriggerTypes>
+	<TriggerType id="0">
+		<name>Movement Sensor</name>
+		<filename>MovementSensorParameters</filename>
+		<controller>MovementSensorController</controller>
+	</TriggerType>
+	<TriggerType id="1">
+		<name>Light Sensor</name>
+		<filename>TimeParameters</filename>
+		<controller>TimeController</controller>
+	</TriggerType>
+</TriggerTypes>

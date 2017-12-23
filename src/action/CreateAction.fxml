@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <Button fx:id="createAction" mnemonicParsing="false" text="Create" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin></Button>
+   </bottom>
+   <top>
+      <BorderPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <left>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Actuator" />
+                  <ChoiceBox fx:id="actuatorBox" prefWidth="150.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></ChoiceBox>
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trigger" />
+                  <ChoiceBox fx:id="triggerBox" prefWidth="150.0" />
+               </children>
+            </HBox>
+         </right>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <top>
+            <HBox prefHeight="37.0" prefWidth="560.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="35.5078125" />
+                  <RequiredFieldValidator />
+                  <JFXTextField fx:id="actionName" />
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+   </top>
+   <left>
+      <HBox prefHeight="223.0" prefWidth="222.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
+            <JFXToggleButton fx:id="actuatorOnOff" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </left>
+   <right>
+      <VBox fx:id="parametersPane" prefHeight="260.0" prefWidth="183.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <VBox fx:id="listTriggers" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTextField alignment="CENTER" editable="false" focusColor="#405aa800" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="207.0" text="Triggers" unFocusColor="#4d4d4d00" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
