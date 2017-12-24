@@ -22,7 +22,7 @@
    <center>
       <VBox fx:id="listTriggers" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXTextField alignment="CENTER" editable="false" focusColor="#405aa800" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="207.0" text="Triggers" unFocusColor="#4d4d4d00" />
+            <JFXTextField alignment="CENTER" focusColor="#405aa800" text="Triggers" unFocusColor="#4d4d4d00" />
          </children>
       </VBox>
    </center>
@@ -41,8 +41,8 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
-                  <JFXToggleButton fx:id="actuatorOnOff" disable="true" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" wrappingWidth="26.888671875" />
+                  <JFXToggleButton fx:id="actuatorOnOff" contentDisplay="RIGHT" disable="true" prefWidth="143.0" />
                </children>
             </HBox>
          </children>

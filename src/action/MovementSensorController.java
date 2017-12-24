@@ -22,14 +22,7 @@ public class MovementSensorController implements TriggerController{
 
 	@Override
 	public Trigger getTrigger(TriggerType tp) {
-		Trigger t = null;
-
-		// Verify timers different than null
-		if (thresholdMovement.getValue() == 0.0) {
-			System.out.println("ERROR : Timers null");
-		} else {
-			t = new Trigger(tp, Double.toString(thresholdMovement.getValue()));
-		}
+		Trigger t = new Trigger(tp, tp.getName());
 
 		return t;
 	}

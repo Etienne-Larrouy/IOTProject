@@ -89,7 +89,7 @@ public class MainController implements Initializable {
 		viewActionController.actionName.setText(listAction.get(i).getName());
 		viewActionController.actuatorName.setText(listAction.get(i).getActionActuator().getName());
 		viewActionController.actuatorOnOff.setSelected(listAction.get(i).getActionActuator().isStateOnOff());
-		
+		System.out.println(listAction.get(i).getActionActuator().isStateOnOff());
 		for(Trigger t : listAction.get(i).getActionTrigger()) {
 			viewActionController.addTrigger(t);
 		}

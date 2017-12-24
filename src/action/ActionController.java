@@ -161,7 +161,7 @@ public class ActionController implements Initializable {
 					a.addTrigger(t);
 
 				/* Set Actuator*/
-				actionActuator.setStateOnOff(actuatorOnOff.isArmed());
+				actionActuator.setStateOnOff(actuatorOnOff.isSelected());
 
 				System.out.println(actuatorOnOff.isSelected());
 				a.setActionActuator(actionActuator);
@@ -251,9 +251,11 @@ public class ActionController implements Initializable {
 					}
 					else if(startElement.getName().getLocalPart().equals("controller")){
 						xmlEvent = xmlEventReader.nextEvent();
+						@SuppressWarnings("rawtypes")
 						Class controller;
 						try {
 							controller = Class.forName("action."+xmlEvent.asCharacters().getData());
+							@SuppressWarnings("rawtypes")
 							Constructor constructor = controller.getConstructor();
 							tp.setTriggerController((TriggerController) constructor.newInstance());
 						} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -305,6 +307,7 @@ public class ActionController implements Initializable {
 				parametersPane.getChildren().add(newLoadedPane);
 				parametersPane.getChildren().add(createTrigger);
 			}
+		 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
