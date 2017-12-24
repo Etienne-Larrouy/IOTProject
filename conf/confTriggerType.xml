@@ -6,8 +6,13 @@
 		<controller>MovementSensorController</controller>
 	</TriggerType>
 	<TriggerType id="1">
-		<name>Light Sensor</name>
+		<name>Time</name>
 		<filename>TimeParameters</filename>
 		<controller>TimeController</controller>
+	</TriggerType>
+	<TriggerType id="2">
+		<name>Light Sensor</name>
+		<filename>LightSensorParameters</filename>
+		<controller>LightSensorController</controller>
 	</TriggerType>
 </TriggerTypes>

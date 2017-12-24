@@ -9,10 +9,10 @@ import application.Trigger;
 import application.TriggerType;
 import javafx.fxml.FXML;
 
-public class MovementSensorController implements TriggerController{
+public class LightSensorController implements TriggerController{
 	
 	@FXML
-	JFXSlider thresholdMovement;
+	JFXSlider thresholdLight;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -25,10 +25,10 @@ public class MovementSensorController implements TriggerController{
 		Trigger t = null;
 
 		// Verify timers different than null
-		if (thresholdMovement.getValue() == 0.0) {
+		if (thresholdLight.getValue() == 0.0) {
 			System.out.println("ERROR : Timers null");
 		} else {
-			t = new Trigger(tp, Double.toString(thresholdMovement.getValue()));
+			t = new Trigger(tp, Double.toString(thresholdLight.getValue()));
 		}
 
 		return t;

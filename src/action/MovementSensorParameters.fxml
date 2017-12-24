@@ -15,7 +15,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Text>
-            <JFXSlider fx:id="threshold" />
+            <JFXSlider fx:id="thresholdMovement" />
          </children>
       </HBox>
    </children>

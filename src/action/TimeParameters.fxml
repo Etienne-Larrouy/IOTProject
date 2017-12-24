@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="112.0" prefWidth="100.0">
          <children>
-            <JFXTextField alignment="CENTER" editable="false" text="After" unFocusColor="#ffffff00" />
+            <JFXTextField alignment="CENTER" editable="false" focusColor="#405aa800" text="After" unFocusColor="#ffffff00" />
             <JFXTimePicker id="timePicker" fx:id="afterTimer" defaultColor="#008f0c" prefHeight="20.0" prefWidth="100.0" />
-            <JFXTextField alignment="CENTER" editable="false" text="Before" unFocusColor="#4d4d4d00" />
+            <JFXTextField alignment="CENTER" editable="false" focusColor="#405aa800" text="Before" unFocusColor="#4d4d4d00" />
             <JFXTimePicker id="timePicker" fx:id="beforeTimer" defaultColor="#8f0b00" />
          </children>
       </VBox>
