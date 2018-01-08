@@ -22,7 +22,7 @@ public class MovementSensorController implements TriggerController{
 
 	@Override
 	public Trigger getTrigger(TriggerType tp) {
-		Trigger t = new Trigger(tp, tp.getName());
+		Trigger t = new Trigger(tp);
 
 		return t;
 	}

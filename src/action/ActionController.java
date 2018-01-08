@@ -36,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -293,7 +294,7 @@ public class ActionController implements Initializable {
 
 
 				//Add trigger button 
-				createTrigger = new Button("Add");
+				createTrigger = new Button("-->");
 				createTrigger.setOnAction(new EventHandler<ActionEvent>() {
 
 					public void handle(ActionEvent event) {
@@ -315,8 +316,21 @@ public class ActionController implements Initializable {
 
 	private void addTrigger(Trigger t) {
 		listTrigger.add(t);
-		Text textTrigger = new Text(t.getParameters().toString());
-		listTriggers.getChildren().add(textTrigger);
+		HBox container = new HBox();
+		container.setSpacing(10.0);
+		Text text = new Text(t.getTriggerType().getName());
+		text.setStyle("-fx-font: 14 arial;");
+		container.getChildren().add(text);
+		
+		for(String p : t.getParameters()) {
+			text = new Text(p.toString());
+			text.setStyle("-fx-font: 14 arial;");
+			container.getChildren().add(text);
+		}
+		
+		listTriggers.getChildren().add(container);
+		
+		
 	}
 
 
