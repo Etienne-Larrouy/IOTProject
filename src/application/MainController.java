@@ -1,11 +1,11 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import action.ActionController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,20 +15,36 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import action.ActionController;
 
 
 public class MainController implements Initializable {
 	/* MenuBar */	     
 	@FXML
     MenuItem menuTransfer;
+	@FXML
+    MenuItem menuOpen;
     @FXML
     MenuItem menuSave;
     @FXML
@@ -87,6 +103,98 @@ public class MainController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		MainController mn = this;
 		
+		
+		
+		/* SET ACTION ON MENU ITEMS */
+		menuOpen.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Open file");
+				File file = fileChooser.showOpenDialog(gridPaneListAction.getScene().getWindow());
+				
+				if (file != null) {
+                    
+                }
+			}
+	    });
+		
+		menuSave.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				  try {
+
+						DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+						DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+						// root elements
+						Document doc = docBuilder.newDocument();
+						Element rootElement = doc.createElement("action");
+						doc.appendChild(rootElement);
+
+						for(Action a : listAction) {
+							Element action = doc.createElement("action");
+							rootElement.appendChild(action);
+							
+							// name element
+							Element actionName = doc.createElement("name");
+							actionName.appendChild(doc.createTextNode(a.getName()));
+							action.appendChild(actionName);
+							
+							// actuator element
+							Element actuator = doc.createElement("actuator");
+							actuator.appendChild(doc.createTextNode(a.getActionActuator().getName()));
+							actuator.setAttribute("id", ""+a.getActionActuator().getId());
+							action.appendChild(actuator);
+							
+							Element triggers = doc.createElement("triggers");
+							action.appendChild(triggers);
+							
+							// trigger element
+							for(Trigger t : a.getActionTrigger()) {
+								Element trigger = doc.createElement("trigger");
+								trigger.setAttribute("id", ""+t.getTriggerType().getId());
+								triggers.appendChild(trigger);
+								
+								Element triggerName = doc.createElement("name");
+								triggerName.appendChild(doc.createTextNode(t.getTriggerType().getName()));
+								trigger.appendChild(triggerName);
+								
+								if(!(t.getParameters().isEmpty())) {
+									Element parameters = doc.createElement("parameters");
+									trigger.appendChild(parameters);
+								
+									for(String s : t.getParameters()) {
+										Element parameter = doc.createElement("parameter");
+										parameter.appendChild(doc.createTextNode(s));
+										parameters.appendChild(parameter);
+									}
+								}
+								
+								
+							}
+							
+						}
+
+						// write the content into xml file
+						TransformerFactory transformerFactory = TransformerFactory.newInstance();
+						Transformer transformer = transformerFactory.newTransformer();
+						DOMSource source = new DOMSource(doc);
+						StreamResult result = new StreamResult(new File("file.xml"));
+
+						// Output to console for testing
+						// StreamResult result = new StreamResult(System.out);
+
+						transformer.transform(source, result);
+
+						System.out.println("File saved!");
+
+					  } catch (ParserConfigurationException pce) {
+						pce.printStackTrace();
+					  } catch (TransformerException tfe) {
+						tfe.printStackTrace();
+					  }
+			}
+	    });
+		
         
 		menuTransfer.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
@@ -144,7 +252,7 @@ public class MainController implements Initializable {
 		viewActionController.actionName.setText(listAction.get(i).getName());
 		viewActionController.actuatorName.setText(listAction.get(i).getActionActuator().getName());
 		viewActionController.actuatorOnOff.setSelected(listAction.get(i).getActionActuator().isStateOnOff());
-		System.out.println(listAction.get(i).getActionActuator().isStateOnOff());
+		
 		for(Trigger t : listAction.get(i).getActionTrigger()) {
 			viewActionController.addTrigger(t);
 		}

@@ -33,6 +33,8 @@ public class ViewActionController implements Initializable{
 
 	public void addTrigger(Trigger t) {		
 		Text textTrigger = new Text(t.getParameters().toString());
+		textTrigger.setStyle("-fx-font: 14 arial;"
+				+ "-fx-fill: #e9e5db;");
 		listTriggers.getChildren().add(textTrigger);
 	}
 
