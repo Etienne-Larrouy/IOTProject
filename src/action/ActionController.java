@@ -36,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -71,7 +72,7 @@ public class ActionController implements Initializable {
 	@FXML
 	private Button createTrigger;
 	@FXML
-	private VBox listTriggers;
+	private GridPane listTriggers;
 	@FXML
 	JFXTextField actionName;
 	@FXML
@@ -85,7 +86,6 @@ public class ActionController implements Initializable {
 	}
 
 	@Override
-
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		//Import Actuator and TriggerType data from the configuration file
@@ -93,9 +93,11 @@ public class ActionController implements Initializable {
 		importDataTriggerType();
 
 		/* Disable create button if Name is empty */
+	
+		
 		createAction.disableProperty().bind((				
-				actionName.textProperty().isNotEmpty()
-				).not());
+				actionName.textProperty().isEmpty()
+				));
 
 		/* LIST ACTUATOR */
 
@@ -292,7 +294,6 @@ public class ActionController implements Initializable {
 				loader.setController(currentController);
 				AnchorPane newLoadedPane = loader.load();
 
-
 				//Add trigger button 
 				createTrigger = new Button("-->");
 				createTrigger.setOnAction(new EventHandler<ActionEvent>() {
@@ -318,19 +319,19 @@ public class ActionController implements Initializable {
 		listTrigger.add(t);
 		HBox container = new HBox();
 		container.setSpacing(10.0);
-		Text text = new Text(t.getTriggerType().getName());
-		text.setStyle("-fx-font: 14 arial;");
-		container.getChildren().add(text);
+		Text text;
 		
 		for(String p : t.getParameters()) {
 			text = new Text(p.toString());
-			text.setStyle("-fx-font: 14 arial;");
+			text.setStyle("-fx-font: 14 arial;"
+					+ "-fx-fill: #e9e5db;");
 			container.getChildren().add(text);
 		}
 		
-		listTriggers.getChildren().add(container);
-		
-		
+		text = new Text(t.getTriggerType().getName());
+		text.setStyle("-fx-font: 14 arial;"
+				+ "-fx-fill: #e9e5db;");
+		listTriggers.addRow(listTriggers.getRowCount(), text, container);
 	}
 
 

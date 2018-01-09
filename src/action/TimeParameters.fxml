@@ -14,22 +14,22 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="116.0" prefWidth="204.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Before">
+                  <Text fill="#ffbf00" strokeType="OUTSIDE" strokeWidth="0.0" text="Before">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTimePicker id="timePicker" fx:id="afterTimer" defaultColor="#008f0c" prefHeight="20.0" prefWidth="100.0">
+                  <JFXTimePicker id="timePicker" fx:id="afterTimer" defaultColor="#008f0c" prefHeight="20.0" prefWidth="100.0" style="-fx-fill: #39c0ba;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </JFXTimePicker>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="After">
+                  <Text fill="#ffbf00" strokeType="OUTSIDE" strokeWidth="0.0" text="After">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTimePicker id="timePicker" fx:id="beforeTimer" defaultColor="#8f0b00" prefWidth="100.0">
+                  <JFXTimePicker id="timePicker" fx:id="beforeTimer" defaultColor="#8f0b00" prefWidth="100.0" style="-fx-fill: #39c0ba;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

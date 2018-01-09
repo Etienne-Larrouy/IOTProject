@@ -12,7 +12,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="22.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Threshold" wrappingWidth="61.1474609375">
+            <Text fill="#ffbf00" strokeType="OUTSIDE" strokeWidth="0.0" text="Threshold" wrappingWidth="61.1474609375">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>

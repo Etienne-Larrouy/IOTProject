@@ -10,9 +10,9 @@
    <children>
       <HBox alignment="TOP_CENTER" layoutY="14.0" prefHeight="24.0" prefWidth="186.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No arguments" wrappingWidth="89.65564727783203">
+            <Text fill="#ffbf00" strokeType="OUTSIDE" strokeWidth="0.0" text="No arguments" wrappingWidth="89.65564727783203">
                <HBox.margin>
-                  <Insets />
+                  <Insets bottom="10.0" top="10.0" />
                </HBox.margin>
                <font>
                   <Font size="14.0" />
