@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
@@ -26,6 +25,7 @@ import application.Actuator;
 import application.MainController;
 import application.Trigger;
 import application.TriggerType;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +45,7 @@ import javafx.util.StringConverter;
 
 public class ActionController implements Initializable {
 
-	private ArrayList<Trigger> listTrigger = new ArrayList<Trigger>();
+	private ObservableList<Trigger> listTrigger = FXCollections.observableArrayList();
 
 	private TriggerController currentController;
 
@@ -94,15 +94,15 @@ public class ActionController implements Initializable {
 
 		/* Disable create button if Name is empty */
 	
-		
+
 		createAction.disableProperty().bind((				
-				actionName.textProperty().isEmpty()
-				));
+				actionName.textProperty().isNotEmpty().and(Bindings.size(listTrigger).greaterThan(0))
+		).not());
 
 		/* LIST ACTUATOR */
 
 		actionActuator = listActuator.get(0);
-
+		actuatorBox.setValue(actionActuator);
 		actuatorBox.setItems(FXCollections.observableArrayList(listActuator));
 
 		// Event listener ChoiceBox

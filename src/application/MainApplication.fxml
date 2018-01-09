@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -54,9 +55,21 @@
    <top>
       <MenuBar fx:id="menuBar" style="-fx-background-color: #999;" BorderPane.alignment="CENTER">
         <menus>
-          <Menu fx:id="menuFile" mnemonicParsing="false" text="File" />
-          <Menu fx:id="menuPeripheral" mnemonicParsing="false" text="Peripheral" />
-          <Menu fx:id="menuCreate" mnemonicParsing="false" text="Create" />
+          <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem fx:id="menuTransfer" mnemonicParsing="false" text="Transfer" />
+                  <MenuItem fx:id="menuSave" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="menuExit" mnemonicParsing="false" text="Exit" />
+               </items></Menu>
+          <Menu fx:id="menuPeripheral" mnemonicParsing="false" text="Peripheral">
+               <items>
+                  <MenuItem fx:id="menuRemovePeripheral" mnemonicParsing="false" text="Add" />
+                  <MenuItem fx:id="menuRemove" mnemonicParsing="false" text="Remove" />
+               </items></Menu>
+          <Menu fx:id="menuCreate" mnemonicParsing="false" text="Create">
+               <items>
+                  <MenuItem fx:id="menuCreateAction" mnemonicParsing="false" text="Action" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>

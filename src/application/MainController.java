@@ -1,10 +1,8 @@
 package application;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 
 import action.ActionController;
@@ -28,16 +26,19 @@ import javafx.stage.Stage;
 
 
 public class MainController implements Initializable {
+	/* MenuBar */	     
 	@FXML
-	MenuBar menuBar;
-	@FXML
-	Menu menuFile;
-	@FXML
-	Menu menuPeripheral;
-	@FXML
-	Menu menuCreate;
-	@FXML
-	VBox VBoxlistAction;
+    MenuItem menuTransfer;
+    @FXML
+    MenuItem menuSave;
+    @FXML
+    MenuItem menuExit;
+    @FXML
+    MenuItem menuCreateAction;
+    @FXML
+    MenuItem menuAddPeripheral;
+    @FXML
+    MenuItem menuRemovePeripheral;
 	@FXML
 	VBox VBoxbuttonList;
 	@FXML
@@ -86,17 +87,8 @@ public class MainController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		MainController mn = this;
 		
-		/* MenuBar */	        
-        MenuItem transfer = new MenuItem("Transfer");
-        MenuItem save = new MenuItem("Save");
-        MenuItem exit = new MenuItem("Exit");
         
-        MenuItem createAction = new MenuItem("Action");
-        
-        MenuItem addPeripheral = new MenuItem("Add");
-        MenuItem removePeripheral = new MenuItem("Remove");
-        
-        transfer.setOnAction(new EventHandler<ActionEvent>() {
+		menuTransfer.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		 SerialPortCom sp = new SerialPortCom("192.168.4.1", 22);
         		 sp.sendData("Bite");
@@ -104,7 +96,7 @@ public class MainController implements Initializable {
         	}
         });
 
-        createAction.setOnAction(new EventHandler<ActionEvent>() {
+        menuCreateAction.setOnAction(new EventHandler<ActionEvent>() {
        	 		
 	            public void handle(ActionEvent event) {
 	            	try {
@@ -129,18 +121,7 @@ public class MainController implements Initializable {
 	            }
 	        }
 		);
-        
-        menuCreate.getItems().add(createAction);
-        
-        menuPeripheral.getItems().add(addPeripheral);
-        menuPeripheral.getItems().add(removePeripheral);
-        
-        menuFile.getItems().add(transfer);
-        menuFile.getItems().add(save);
-        menuFile.getItems().add(exit);
-
-
-	}
+   	}
 	
 	/* View button action handler */
 	public void displayAction(int i) {
