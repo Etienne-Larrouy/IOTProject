@@ -66,7 +66,7 @@
           <Menu fx:id="menuPeripheral" mnemonicParsing="false" text="Peripheral">
                <items>
                   <MenuItem fx:id="menuAddPeripheral" mnemonicParsing="false" text="Add" />
-                  <MenuItem fx:id="menuRemove" mnemonicParsing="false" text="Remove" />
+                  <MenuItem fx:id="menuRemovePeripheral" mnemonicParsing="false" text="Remove" />
                </items></Menu>
           <Menu fx:id="menuCreate" mnemonicParsing="false" text="Create">
                <items>

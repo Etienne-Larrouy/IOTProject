@@ -1,9 +1,15 @@
 package application;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -81,7 +87,7 @@ public class MainController implements Initializable {
 	@FXML
 	GridPane gridPaneListAction;
 
-
+	public Socket clientSocket;
 	public ObservableList<Action> listAction = FXCollections.observableArrayList();;
 
 	BooleanProperty notSaved = new SimpleBooleanProperty(false);
@@ -108,10 +114,58 @@ public class MainController implements Initializable {
 
 		menuAddPeripheral.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				System.out.println(notSaved.getValue());
-				System.out.println(fileOpen.getValue());
+
 			}
 		});
+
+		menuRemovePeripheral.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+
+			}
+		});
+
+		menuTransfer.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+
+				try {
+					mn.clientSocket = new Socket("192.168.4.2", 22);
+					String oldPath = null;
+					if(openedFile != null)
+						oldPath = openedFile.getAbsolutePath();
+
+					mn.openedFile= new File("temp.xml");
+					mn.save();
+					byte [] mybytearray  = new byte [(int)openedFile.length()];
+
+					BufferedInputStream inFromUser = new BufferedInputStream(new FileInputStream(openedFile));
+					inFromUser.read(mybytearray,0,mybytearray.length);
+
+					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+
+					outToServer.write(mybytearray,0,mybytearray.length);
+					outToServer.flush();
+
+
+					openedFile.delete();
+
+					if(oldPath == null)
+						openedFile = null;
+					else
+						openedFile = new File(oldPath);
+
+					inFromUser.close();
+					clientSocket.close();
+
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+
 
 		menuExit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -183,14 +237,14 @@ public class MainController implements Initializable {
 							new File(System.getProperty("user.dir")+"/save")
 							); 
 
-					File file = fileChooser.showOpenDialog(gridPaneListAction.getScene().getWindow());
+					openedFile = fileChooser.showOpenDialog(gridPaneListAction.getScene().getWindow());
 
-					if (file != null) {
+					if (openedFile != null) {
 
 						XMLInputFactory factory = XMLInputFactory.newInstance();
 						XMLEventReader r;
 						try {
-							r = factory.createXMLEventReader(new FileReader(file));
+							r = factory.createXMLEventReader(new FileReader(openedFile));
 							String current = null;
 							Action a = null;
 							Trigger t = null;
@@ -283,13 +337,7 @@ public class MainController implements Initializable {
 		});
 
 
-		menuTransfer.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				SerialPortCom sp = new SerialPortCom("192.168.4.1", 22);
-				sp.sendData("Bite");
-				sp.close();
-			}
-		});
+
 
 		menuCreateAction.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -420,88 +468,90 @@ public class MainController implements Initializable {
 			openedFile = fileChooser.showSaveDialog(gridPaneListAction.getScene().getWindow());
 		}
 
-		try {
+		if(openedFile != null) {
+			try {
 
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-			// root elements
-			Document doc = docBuilder.newDocument();
-			Element rootElement = doc.createElement("actions");
-			doc.appendChild(rootElement);
+				// root elements
+				Document doc = docBuilder.newDocument();
+				Element rootElement = doc.createElement("actions");
+				doc.appendChild(rootElement);
 
-			for(Action a : listAction) {
-				Element action = doc.createElement("action");
-				rootElement.appendChild(action);
+				for(Action a : listAction) {
+					Element action = doc.createElement("action");
+					rootElement.appendChild(action);
 
-				// name element
-				Element actionName = doc.createElement("name");
-				actionName.appendChild(doc.createTextNode(a.getName()));
-				action.appendChild(actionName);
+					// name element
+					Element actionName = doc.createElement("name");
+					actionName.appendChild(doc.createTextNode(a.getName()));
+					action.appendChild(actionName);
 
-				// actuator element
-				Element actuator = doc.createElement("actuator");
+					// actuator element
+					Element actuator = doc.createElement("actuator");
 
-				actuator.setAttribute("id", ""+a.getActionActuator().getId());
+					actuator.setAttribute("id", ""+a.getActionActuator().getId());
 
-				Element actuatorName = doc.createElement("name");
-				actuatorName.appendChild(doc.createTextNode(a.getActionActuator().getName()));
-				actuator.appendChild(actuatorName);
+					Element actuatorName = doc.createElement("name");
+					actuatorName.appendChild(doc.createTextNode(a.getActionActuator().getName()));
+					actuator.appendChild(actuatorName);
 
-				Element state = doc.createElement("state");
-				state.appendChild(doc.createTextNode(Boolean.toString(a.getActionActuator().isStateOnOff())));
-				actuator.appendChild(state);
-				action.appendChild(actuator);
+					Element state = doc.createElement("state");
+					state.appendChild(doc.createTextNode(Boolean.toString(a.getActionActuator().isStateOnOff())));
+					actuator.appendChild(state);
+					action.appendChild(actuator);
 
-				Element triggers = doc.createElement("triggers");
-				action.appendChild(triggers);
+					Element triggers = doc.createElement("triggers");
+					action.appendChild(triggers);
 
-				// trigger element
-				for(Trigger t : a.getActionTrigger()) {
-					Element trigger = doc.createElement("trigger");
-					trigger.setAttribute("id", ""+t.getTriggerType().getId());
-					triggers.appendChild(trigger);
+					// trigger element
+					for(Trigger t : a.getActionTrigger()) {
+						Element trigger = doc.createElement("trigger");
+						trigger.setAttribute("id", ""+t.getTriggerType().getId());
+						triggers.appendChild(trigger);
 
-					Element triggerName = doc.createElement("name");
-					triggerName.appendChild(doc.createTextNode(t.getTriggerType().getName()));
-					trigger.appendChild(triggerName);
+						Element triggerName = doc.createElement("name");
+						triggerName.appendChild(doc.createTextNode(t.getTriggerType().getName()));
+						trigger.appendChild(triggerName);
 
-					if(!(t.getParameters().isEmpty())) {
-						Element parameters = doc.createElement("parameters");
-						trigger.appendChild(parameters);
+						if(!(t.getParameters().isEmpty())) {
+							Element parameters = doc.createElement("parameters");
+							trigger.appendChild(parameters);
 
-						for(String s : t.getParameters()) {
-							Element parameter = doc.createElement("parameter");
-							parameter.appendChild(doc.createTextNode(s));
-							parameters.appendChild(parameter);
+							for(String s : t.getParameters()) {
+								Element parameter = doc.createElement("parameter");
+								parameter.appendChild(doc.createTextNode(s));
+								parameters.appendChild(parameter);
+							}
 						}
 					}
 				}
+
+
+				// write the content into xml file
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(openedFile);
+
+				transformer.transform(source, result);
+				fileOpen.set(true);
+				notSaved.set(false);
+				System.out.println("File saved!");
+
+			} catch (ParserConfigurationException pce) {
+				pce.printStackTrace();
+			} catch (TransformerException tfe) {
+				tfe.printStackTrace();
 			}
-
-
-			// write the content into xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(openedFile);
-
-			transformer.transform(source, result);
-			fileOpen.set(true);
-			notSaved.set(false);
-			System.out.println("File saved!");
-
-		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		} catch (TransformerException tfe) {
-			tfe.printStackTrace();
 		}
 
 
 
 	}
 
-	
+
 	public void exit() {
 		Stage stage = (Stage) gridPaneListAction.getScene().getWindow();
 		stage.close();

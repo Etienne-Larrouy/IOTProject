@@ -9,7 +9,4 @@
 	<Actuator id="2">
 		<name>Heating</name>
 	</Actuator>
-	<Actuator id="3"> 
-		<name>Movement Sensor</name>
-	</Actuator>
 </Actuators>
