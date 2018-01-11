@@ -29,6 +29,7 @@ public class Action {
 	
 	public Action() {
 		this.actionTrigger = new ArrayList<Trigger>();
+		actionActuator = null;
 	}
 	
 	

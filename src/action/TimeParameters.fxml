@@ -19,7 +19,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTimePicker id="timePicker" fx:id="afterTimer" defaultColor="#008f0c" prefHeight="20.0" prefWidth="100.0" style="-fx-fill: #39c0ba;">
+                  <JFXTimePicker id="timePicker" fx:id="beforeTimer" defaultColor="#008f0c" prefHeight="20.0" prefWidth="100.0">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
@@ -29,7 +29,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTimePicker id="timePicker" fx:id="beforeTimer" defaultColor="#8f0b00" prefWidth="100.0" style="-fx-fill: #39c0ba;">
+                  <JFXTimePicker id="timePicker" fx:id="afterTimer" defaultColor="#8f0b00" prefWidth="100.0">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

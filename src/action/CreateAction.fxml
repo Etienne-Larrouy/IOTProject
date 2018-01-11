@@ -93,7 +93,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="triggerBox" prefWidth="150.0" style="-fx-background-color: #999; -fx-fill: #39c0ba;" />
+                  <ChoiceBox fx:id="triggerBox" prefWidth="150.0" style="-fx-background-color: #999;" />
                </children>
             </HBox>
             <VBox fx:id="parametersPane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">

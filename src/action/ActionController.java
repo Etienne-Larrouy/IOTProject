@@ -93,13 +93,12 @@ public class ActionController implements Initializable {
 		importDataTriggerType();
 
 		/* Disable create button if Name is empty */
-	
-
 		createAction.disableProperty().bind((				
 				actionName.textProperty().isNotEmpty().and(Bindings.size(listTrigger).greaterThan(0))
 		).not());
 
 		/* LIST ACTUATOR */
+		
 
 		actionActuator = listActuator.get(0);
 		actuatorBox.setValue(actionActuator);
@@ -200,7 +199,7 @@ public class ActionController implements Initializable {
 					StartElement startElement = xmlEvent.asStartElement();
 					if(startElement.getName().getLocalPart().equals("Actuator")){
 
-						//Get the 'id' attribute from Employee element
+						//Get the 'id' attribute from actuator element
 						Attribute idAttr = startElement.getAttributeByName(new QName("id"));
 						if(idAttr != null){
 							a = new Actuator(Integer.parseInt(idAttr.getValue()));
@@ -211,7 +210,7 @@ public class ActionController implements Initializable {
 						a.setName(xmlEvent.asCharacters().getData());
 					}
 				}
-				//if Employee end element is reached, add employee object to list
+				//if actuator end element is reached, add employee object to list
 				if(xmlEvent.isEndElement()){
 					EndElement endElement = xmlEvent.asEndElement();
 					if(endElement.getName().getLocalPart().equals("Actuator")){

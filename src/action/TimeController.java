@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXTimePicker;
 import application.Trigger;
 import application.TriggerType;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class TimeController implements TriggerController {
 	@FXML
@@ -20,6 +22,8 @@ public class TimeController implements TriggerController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		afterTimer.getEditor().setStyle("-fx-text-fill: white; -fx-font-size: 14;");
+		beforeTimer.getEditor().setStyle("-fx-text-fill: white; -fx-font-size: 14;");
 	}
 
 	@Override
@@ -30,7 +34,15 @@ public class TimeController implements TriggerController {
 		if (afterTimer.getValue() == null || beforeTimer.getValue() == null) {
 			System.out.println("ERROR : Timers null");
 		} else {
-			t = new Trigger(tp, afterTimer.getValue().toString(), beforeTimer.getValue().toString());
+			if(afterTimer.getValue().isBefore(beforeTimer.getValue())) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Timers");
+				alert.setHeaderText(null);
+				alert.setContentText("Error - Second timer needs to be after the first");
+				alert.show();
+			}
+			else
+				t = new Trigger(tp, beforeTimer.getValue().toString(), afterTimer.getValue().toString());
 		}
 
 		return t;

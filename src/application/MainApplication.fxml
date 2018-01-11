@@ -60,11 +60,12 @@
                   <MenuItem fx:id="menuOpen" mnemonicParsing="false" text="Open" />
                   <MenuItem fx:id="menuTransfer" mnemonicParsing="false" text="Transfer" />
                   <MenuItem fx:id="menuSave" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="menuSaveAs" mnemonicParsing="false" text="Save as..." />
                   <MenuItem fx:id="menuExit" mnemonicParsing="false" text="Exit" />
                </items></Menu>
           <Menu fx:id="menuPeripheral" mnemonicParsing="false" text="Peripheral">
                <items>
-                  <MenuItem fx:id="menuRemovePeripheral" mnemonicParsing="false" text="Add" />
+                  <MenuItem fx:id="menuAddPeripheral" mnemonicParsing="false" text="Add" />
                   <MenuItem fx:id="menuRemove" mnemonicParsing="false" text="Remove" />
                </items></Menu>
           <Menu fx:id="menuCreate" mnemonicParsing="false" text="Create">

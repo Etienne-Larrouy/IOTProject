@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><actions><action><name>sdfsdf</name><actuator id="0"><name>Light</name><state>true</state></actuator><triggers><trigger id="1"><name>Time</name><parameters><parameter>13:22</parameter><parameter>17:22</parameter></parameters></trigger></triggers></action></actions>
