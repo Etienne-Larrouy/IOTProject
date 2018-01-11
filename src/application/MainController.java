@@ -58,6 +58,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -144,18 +145,16 @@ public class MainController implements Initializable {
 
 					outToServer.write(mybytearray,0,mybytearray.length);
 					outToServer.flush();
-
-
+					inFromUser.close();
+					
+					clientSocket.close();
 					openedFile.delete();
+				
 
 					if(oldPath == null)
 						openedFile = null;
 					else
 						openedFile = new File(oldPath);
-
-					inFromUser.close();
-					clientSocket.close();
-
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -452,6 +451,8 @@ public class MainController implements Initializable {
 		text.setStyle("-fx-font: 14 arial;"
 				+ "-fx-fill: #e9e5db;");
 		gridPaneListAction.addRow(gridPaneListAction.getRowCount(),text, view, remove);
+		RowConstraints row = new RowConstraints(30);
+		gridPaneListAction.getRowConstraints().add(row);
 		notSaved.set(true);
 
 	}
