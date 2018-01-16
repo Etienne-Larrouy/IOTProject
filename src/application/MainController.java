@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -149,7 +151,6 @@ public class MainController implements Initializable {
 					
 					clientSocket.close();
 					openedFile.delete();
-				
 
 					if(oldPath == null)
 						openedFile = null;
@@ -204,8 +205,8 @@ public class MainController implements Initializable {
 					/* ASK USER IF HE WANTS T DELETE CURRENT ACTIONS */
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Existing actions");
-					alert.setHeaderText("Warning - Existing actions");
-					alert.setContentText("Opening file will remove existing actions. Would you like to continue ?");
+					alert.setHeaderText(null);
+					alert.setContentText("Warning - Opening file will remove existing actions. Would you like to continue ?");
 
 
 					ButtonType ok = new ButtonType("Ok");
@@ -217,6 +218,9 @@ public class MainController implements Initializable {
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == ok){
 						proceed = true;
+						
+						while(listAction.size() > 0)
+							removeAction(listAction.size());
 					}
 					else {
 						proceed = false;
@@ -311,7 +315,7 @@ public class MainController implements Initializable {
 
 							}
 							fileOpen.set(true);
-							notSaved.set(false);;
+							notSaved.set(false);
 						} catch (FileNotFoundException | XMLStreamException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -331,7 +335,19 @@ public class MainController implements Initializable {
 
 		menuSaveAs.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
+				
+				String oldPath = null;
+				if(openedFile != null) {
+					oldPath = openedFile.getAbsolutePath();
+					openedFile = null;
+				}
+
 				mn.save();
+				
+				if(oldPath == null)
+					openedFile = null;
+				else
+					openedFile = new File(oldPath);
 			}
 		});
 
@@ -430,7 +446,7 @@ public class MainController implements Initializable {
 
 		view.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				displayAction(GridPane.getRowIndex(view)-1);
+				displayAction(listAction.size()-1);
 			}
 		}
 				);
@@ -440,7 +456,7 @@ public class MainController implements Initializable {
 
 		remove.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				removeAction(GridPane.getRowIndex(remove));
+				removeAction(listAction.size());
 			}
 		}
 				);
@@ -450,7 +466,7 @@ public class MainController implements Initializable {
 		Text text = new Text(a.getName());
 		text.setStyle("-fx-font: 14 arial;"
 				+ "-fx-fill: #e9e5db;");
-		gridPaneListAction.addRow(gridPaneListAction.getRowCount(),text, view, remove);
+		gridPaneListAction.addRow(listAction.size(),text, view, remove);
 		RowConstraints row = new RowConstraints(30);
 		gridPaneListAction.getRowConstraints().add(row);
 		notSaved.set(true);
@@ -474,15 +490,25 @@ public class MainController implements Initializable {
 
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
 				// root elements
 				Document doc = docBuilder.newDocument();
-				Element rootElement = doc.createElement("actions");
+				
+				Element rootElement = doc.createElement("data");
 				doc.appendChild(rootElement);
+				
+				//Get actual time
+				Element timeElement = doc.createElement("time");
+				Date date=new Date();    
+				timeElement.appendChild(doc.createTextNode(new SimpleDateFormat("yyyy.MM.dd  HH:mm").format(date)));
+				
+				rootElement.appendChild(timeElement);
+				
+				Element actionsElement = doc.createElement("actions");
+				rootElement.appendChild(actionsElement);
 
 				for(Action a : listAction) {
 					Element action = doc.createElement("action");
-					rootElement.appendChild(action);
+					actionsElement.appendChild(action);
 
 					// name element
 					Element actionName = doc.createElement("name");
