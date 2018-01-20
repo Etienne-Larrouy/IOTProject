@@ -170,8 +170,8 @@ public class MainController implements Initializable {
 		menuExit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 
-				if(notSaved.getValue() && gridPaneListAction.getRowCount()>1) {
-					/* ASK USER IF HE WANTS T DELETE CURRENT ACTIONS */
+				if(notSaved.getValue() && listAction.size()>0) {
+					/* ASK USER IF HE WANTS TO DELETE CURRENT ACTIONS */
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Existing actions");
 					alert.setHeaderText(null);
@@ -201,7 +201,7 @@ public class MainController implements Initializable {
 			public void handle(ActionEvent event) {
 
 				boolean proceed = true;
-				if(gridPaneListAction.getRowCount()>1) {
+				if(listAction.size()>0) {
 					/* ASK USER IF HE WANTS T DELETE CURRENT ACTIONS */
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Existing actions");
@@ -447,9 +447,9 @@ public class MainController implements Initializable {
 		view.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				displayAction(listAction.size()-1);
+				}
 			}
-		}
-				);
+		);
 
 		//Button allowing to remove the action
 		Button remove = new Button("Remove");
@@ -457,9 +457,9 @@ public class MainController implements Initializable {
 		remove.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				removeAction(listAction.size());
+				}
 			}
-		}
-				);
+		);
 
 		// Add the freshly created action to the list
 		listAction.add(a);
