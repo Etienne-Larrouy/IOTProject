@@ -1,15 +1,17 @@
 package application;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ import action.ActionController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,6 +59,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -84,7 +86,7 @@ public class MainController implements Initializable {
 	@FXML
 	MenuItem menuAddPeripheral;
 	@FXML
-	MenuItem menuRemovePeripheral;
+	MenuItem menuPeripheralStatus;
 	@FXML
 	VBox VBoxbuttonList;
 	@FXML
@@ -115,51 +117,49 @@ public class MainController implements Initializable {
 				Bindings.size(listAction).greaterThan(0)
 				).not());
 
-		menuAddPeripheral.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-
-			}
-		});
-
-		menuRemovePeripheral.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-
-			}
-		});
-
 		menuTransfer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-
-				try {
-					mn.clientSocket = new Socket("192.168.4.2", 22);
-					String oldPath = null;
-					if(openedFile != null)
-						oldPath = openedFile.getAbsolutePath();
-
-					mn.openedFile= new File("temp.xml");
-					mn.save();
-					byte [] mybytearray  = new byte [(int)openedFile.length()];
-
-					BufferedInputStream inFromUser = new BufferedInputStream(new FileInputStream(openedFile));
-					inFromUser.read(mybytearray,0,mybytearray.length);
-
-					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-
-					outToServer.write(mybytearray,0,mybytearray.length);
-					outToServer.flush();
-					inFromUser.close();
-					
-					clientSocket.close();
-					openedFile.delete();
-
-					if(oldPath == null)
-						openedFile = null;
-					else
-						openedFile = new File(oldPath);
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				
+				String ip = searchPeripheral();
+				
+				if (ip!=null) {
+					try {
+						mn.clientSocket = new Socket(ip, 80);
+						String oldPath = null;
+						if(openedFile != null)
+							oldPath = openedFile.getAbsolutePath();
+	
+						mn.openedFile= new File("temp.xml");
+						mn.save();
+						byte [] mybytearray  = new byte [(int)openedFile.length()];
+	
+						BufferedInputStream inFromUser = new BufferedInputStream(new FileInputStream(openedFile));
+						inFromUser.read(mybytearray,0,mybytearray.length);
+	
+						DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+	
+						outToServer.write(mybytearray,0,mybytearray.length);
+						outToServer.flush();
+						inFromUser.close();
+						
+						clientSocket.close();
+						openedFile.delete();
+	
+						if(oldPath == null)
+							openedFile = null;
+						else
+							openedFile = new File(oldPath);
+	
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Not found");
+					alert.setHeaderText(null);
+					alert.setContentText("Warning !\nThe main board couldn't be found. \nBe sure to press the configuration button on the board.");
+					alert.showAndWait();
 				}
 
 			}
@@ -317,7 +317,6 @@ public class MainController implements Initializable {
 							fileOpen.set(true);
 							notSaved.set(false);
 						} catch (FileNotFoundException | XMLStreamException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
@@ -371,7 +370,6 @@ public class MainController implements Initializable {
 					stage.show();
 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -381,8 +379,76 @@ public class MainController implements Initializable {
 				);
 	}
 
+	/* Search peripheral by sending UDP packet */
+	private String searchPeripheral() {
+		
+		/* Get security code access */
+		DatagramSocket UDPsocket = null;
+		TextInputDialog dialog;
+		dialog = new TextInputDialog();
+		dialog.setTitle("Security code");
+		dialog.setHeaderText("Enter the board security code access.");
+		
+		Optional<String> result = dialog.showAndWait();
+		
+		String entered = null;
+	
+		if (result.isPresent()) {
+		    entered = result.get();
+			}
+	
+
+		if(entered!=null) {
+		 try {
+	          //Open a random port to send the package
+			 UDPsocket = new DatagramSocket(8887);
+			 UDPsocket.setBroadcast(true);
+
+	          byte[] sendData = entered.getBytes();
+
+	          //Try the 192.168.0.255 first
+	          try {
+	            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("192.168.0.255"), 8888);
+	            UDPsocket.send(sendPacket);
+	            System.out.println(">>> Request packet sent to: 192.168.0.255 (DEFAULT)");
+	          } catch (Exception e) {
+	        	  e.printStackTrace();
+	          }
+
+	          //Wait for a response
+	          byte[] recvBuf = new byte[15000];
+	          DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
+	          UDPsocket.setSoTimeout(15000);
+	          UDPsocket.receive(receivePacket);
+
+	          //We have a response
+	          System.out.println(">>> Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
+
+	          //Close the port!
+	          UDPsocket.close();
+	          String message = new String(receivePacket.getData()).trim();
+
+	          if(message.equals("1234567890")) {
+	        	  return receivePacket.getAddress().getHostAddress();
+	          }
+	          else {
+	        	  return null;
+	          }
+	                
+
+	        }catch (IOException e) {
+	        	UDPsocket.close();
+	        	e.printStackTrace();
+	        }
+		}
+		else {
+			return null;
+		}
+		return null;
+	}
+
 	/* View button action handler */
-	public void displayAction(int i) {
+	private void displayAction(int i) {
 		ViewActionController viewActionController = new ViewActionController();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewAction.fxml"));
 		loader.setController(viewActionController);
@@ -409,7 +475,7 @@ public class MainController implements Initializable {
 
 	}
 
-	public void removeAction(int i) {
+	private void removeAction(int i) {
 		notSaved.set(true);
 		listAction.remove(i-1);
 
@@ -473,7 +539,7 @@ public class MainController implements Initializable {
 
 	}
 
-	public void save() {
+	private void save() {
 
 		if(openedFile == null) {
 			FileChooser fileChooser = new FileChooser();
@@ -578,8 +644,7 @@ public class MainController implements Initializable {
 
 	}
 
-
-	public void exit() {
+	private void exit() {
 		Stage stage = (Stage) gridPaneListAction.getScene().getWindow();
 		stage.close();
 	}
