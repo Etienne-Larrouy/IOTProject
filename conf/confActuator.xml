@@ -9,4 +9,7 @@
 	<Actuator id="2">
 		<name>Heating</name>
 	</Actuator>
+	<Actuator id="3">
+		<name>Power plug</name>
+	</Actuator>
 </Actuators>

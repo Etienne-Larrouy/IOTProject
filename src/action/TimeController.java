@@ -34,7 +34,7 @@ public class TimeController implements TriggerController {
 		if (afterTimer.getValue() == null || beforeTimer.getValue() == null) {
 			System.out.println("ERROR : Timers null");
 		} else {
-			if(afterTimer.getValue().isBefore(beforeTimer.getValue())) {
+			if(beforeTimer.getValue().isBefore(afterTimer.getValue())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Timers");
 				alert.setHeaderText(null);
@@ -42,7 +42,7 @@ public class TimeController implements TriggerController {
 				alert.show();
 			}
 			else
-				t = new Trigger(tp, beforeTimer.getValue().toString(), afterTimer.getValue().toString());
+				t = new Trigger(tp, afterTimer.getValue().toString(), beforeTimer.getValue().toString());
 		}
 
 		return t;
