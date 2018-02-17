@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="16.0" prefWidth="186.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="TOP_CENTER" layoutY="14.0" prefHeight="24.0" prefWidth="186.0">
          <children>
-            <Text fill="#ffbf00" strokeType="OUTSIDE" strokeWidth="0.0" text="When activated" wrappingWidth="89.65564727783203">
-               <HBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </HBox.margin>
+            <CheckBox fx:id="activated" mnemonicParsing="false" text="When activated" textFill="#ffbf00">
                <font>
                   <Font size="14.0" />
                </font>
-            </Text>
+            </CheckBox>
          </children>
       </HBox>
    </children>
