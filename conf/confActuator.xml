@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Actuators>
-	<Actuator id="0">
+	<Actuator id="3">
 		<name>Light</name>
 	</Actuator>
-	<Actuator id="1">
+	<Actuator id="4">
 		<name>Power</name>
 	</Actuator>
-	<Actuator id="2">
+	<Actuator id="5">
 		<name>Heating</name>
 	</Actuator>
-	<Actuator id="3">
+	<Actuator id="6">
 		<name>Power plug</name>
 	</Actuator>
 </Actuators>

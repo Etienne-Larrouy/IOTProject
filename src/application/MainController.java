@@ -408,7 +408,7 @@ public class MainController implements Initializable {
 
 	          //Try the 192.168.0.255 first
 	          try {
-	            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("192.168.0.255"), 8888);
+	            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("192.168.1.255"), 8888);
 	            UDPsocket.send(sendPacket);
 	            System.out.println(">>> Request packet sent to: 192.168.255.255 (DEFAULT)");
 	          } catch (Exception e) {
